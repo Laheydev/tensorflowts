@@ -21,12 +21,13 @@ export default function Main() {
   }
 
   function linearPrediction(val: any) {
-    const output = linearModel.predict(tf.tensor2d([val], [1, 1])) as tf.Tensor;
+    const output = linearModel.predict(tf.tensor2d([val], [1, 1])) as any;
     setPrediction(Array.from(output.dataSync())[0]);
   }
 
   function changeModelData(e: any) {
     setInputValue(e.target.value);
+    linearPrediction(parseInt(e.target.value));
   }
 
   const [prediction, setPrediction] = useState<any>(undefined);
@@ -38,8 +39,10 @@ export default function Main() {
 
   return (
     <div>
-      TensorFlow says {prediction}
+      <h1 className="title"> TensorFlow says {prediction}</h1>
+
       <input
+        className="input"
         type="number"
         value={inputValue}
         onChange={(e) => changeModelData(e)}
